@@ -1,9 +1,27 @@
+#include <string.h>
+
+#include <stdio.h>
+
+#include <stdlib.h>
+
+#include <fcntl.h>
+
+#include <sys/uio.h>
+
+#include <sys/types.h>
+
+#include <unistd.h>
+
+#include <signal.h>
+
+#include <sys/fcntl.h>
+
 int main() {
   int i;
   int zombie;
   int status;
   int pid;
-  signal(SIGINT, sigCatcher);    // sets a handler for INT signal
+  signal(SIGINT, sigCatcher);    // sets a handler for INT signal
     for(i=0; i<5; i++){
     if((pid=fork()) ==  0){      		// create new child
       	printf("PID %d ready\n", getpid());
