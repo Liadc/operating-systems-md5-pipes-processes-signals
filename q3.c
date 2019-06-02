@@ -16,13 +16,24 @@
 
 #include <sys/fcntl.h>
 
+int cpid[5];         // holds the pids of the children
+int j;                    // index to cpid 
+
+// function to activate when a signal is caught
+int sigCatcher() {  
+  signal(SIGINT, sigCatcher);  // re-assign the signal catcher
+  printf("PID %d caught one\n", getpid());
+  if(j > -1)
+    	kill(cpid[j], SIGINT);  // send signal to next child in cpid
+} 
 int main() {
   int i;
   int zombie;
   int status;
   int pid;
-  signal(SIGINT, sigCatcher);    // sets a handler for INT signal
-    for(i=0; i<5; i++){
+  signal(SIGINT, sigCatcher);    // sets a handler for INT signal
+
+for(i=0; i<5; i++){
     if((pid=fork()) ==  0){      		// create new child
       	printf("PID %d ready\n", getpid());
       	j = i-1;
